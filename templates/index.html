@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gimbals Insider</title>
+    <meta name="description" content="Where Gimbal Enthusiasts Level Up"/>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0A0F1C',
+                        secondary: '#141B2D',
+                        accent: '#3B82F6',
+                        highlight: '#06B6D4',
+                        surface: '#1E293B',
+                        muted: '#64748B',
+                        border: '#334155'
+                    },
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+        
+        :root {
+            --bg: #0A0F1C;
+            --fg: #F8FAFC;
+            --accent: #3B82F6;
+            --highlight: #06B6D4;
+        }
+        
+        body {
+            background: var(--bg);
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .desktop-dropdown:hover .desktop-dropdown-menu { display: block; }
+        
+        .mobile-dropdown-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .mobile-dropdown-menu.open { max-height: 300px; }
+        
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25); }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .card-hover:hover { transform: none; }
+        }
+        
+        .aspect-cat { aspect-ratio: 340 / 400; }
+        
+        .gradient-overlay {
+            background: linear-gradient(to top, rgba(10, 15, 28, 0.95) 0%, rgba(10, 15, 28, 0.5) 50%, transparent 100%);
+        }
+        
+        .header-blur { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 20px 4px rgba(59, 130, 246, 0.3); }
+        }
+        
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+    </style>
+</head>
+<body class="bg-primary text-white font-body flex flex-col min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-secondary text-white top-0 z-50 border-b border-border/50 shadow-lg">
+        <div class="container mx-auto px-4 py-5">
+            <div class="flex items-center justify-between relative">
+                
+                <!-- Logo (Left) -->
+                <a href="/" class="flex items-center gap-3 shrink-0 z-10">
+                    <img src="static/Images/logo.jpg" alt="Gimbals Insider Logo" width="130" height="28" class="h-8 md:h-9 w-auto object-contain"/>
+                </a>
+                
+                <!-- Desktop Navigation (Center) -->
+                <nav class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-base font-semibold text-white/90">
+                    <a href="/" class="hover:text-accent transition">Home</a>
+                    <a href="/" class="hover:text-accent transition">Gimbal Guide</a>
+                    <a href="/blog/" class="hover:text-accent transition">Blog</a>
+                    <a href="/about/" class="hover:text-accent transition">About</a>
+                    <a href="/contact/" class="hover:text-accent transition">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Button (Right) -->
+                <button id="mobile-menu-btn" aria-label="Open mobile menu" class="lg:hidden text-white p-2 rounded-lg hover:bg-surface transition focus:outline-none z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-6 h-6">
+                        <path d="M16 132h416c8.8 0 16-7.2 16-16V76c0-8.8-7.2-16-16-16H16C7.2 60 0 67.2 0 76v40c0 8.8 7.2 16 16 16zm0 160h416c8.8 0 16-7.2 16-16v-40c0-8.8-7.2-16-16-16H16c-8.8 0-16 7.2-16 16v40c0 8.8 7.2 16 16 16zm0 160h416c8.8 0 16-7.2 16-16v-40c0-8.8-7.2-16-16-16H16c-8.8 0-16 7.2-16 16v40c0 8.8 7.2 16 16 16z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-surface border-t border-border/30 px-4 py-4 space-y-2 text-white">
+            <a href="/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Home</a>
+            <a href="/gimbal-guide/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Gimbal Guide</a>
+            <a href="/blog/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Blog</a>
+            <a href="/about/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">About</a>
+            <a href="/contact/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Contact</a>
+        </div>
+    </header>
+    
+    <main class="flex-grow">
+
+        <!-- Gimbal Guide Section -->
+        <section class="container mx-auto px-4 py-12 md:py-16">
+            
+            <!-- Section Header -->
+            <div class="py-6 md:py-10 flex flex-col items-center text-center reveal">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-display mb-4 tracking-tight">
+                    Gimbal <span class="text-accent">Guide</span>
+                </h1>
+                <p class="text-muted text-base md:text-lg max-w-2xl px-4 leading-relaxed">
+                    Your one-stop resource for everything gimbal. From choosing the right gear to mastering <span class="font-semibold text-white">advanced techniques</span>.
+                </p>
+                <div class="flex items-center gap-3 mt-6">
+                    <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+                    <div class="w-3 h-3 bg-accent rounded-full pulse-glow"></div>
+                    <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+                </div>
+            </div>
+            
+            <!-- Guide Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                
+                <!-- Card: Types of Gimbals -->
+                <article class="bg-secondary/80 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/gimbal-guide/types-of-gimbals/">
+                            <img src="static/Images/gimbal.jpg" alt="Types of Gimbals" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/gimbal-guide/types-of-gimbals/">Types of Gimbals</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Explore different gimbal types to find the perfect match for your camera setup.
+                        </p>
+                        
+                        <a href="/gimbal-guide/types-of-gimbals/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Browse
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Card: Buying Guides -->
+                <article class="bg-secondary/80 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/gimbal-guide/gimbal-buying-guides/">
+                            <img src="static/Images/gimbal.jpg" alt="Gimbal Buying Guides" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/gimbal-guide/gimbal-buying-guides/">Buying Guides</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Expert recommendations to help you choose the best gimbal for your budget and needs.
+                        </p>
+                        
+                        <a href="/gimbal-guide/gimbal-buying-guides/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Browse
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Card: Gimbal Setup -->
+                <article class="bg-secondary/80 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.3s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/gimbal-guide/gimbal-setup/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Cinematic%20Gimbal%20Moves%20for%20Wedding%20Videos%207%20Pro%20Techniques-640x360.webp" alt="Gimbal Setup" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/gimbal-guide/gimbal-setup/">Gimbal Setup</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Step-by-step instructions for balancing and configuring your gimbal for optimal performance.
+                        </p>
+                        
+                        <a href="/gimbal-guide/gimbal-setup/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Browse
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Card: Accessories -->
+                <article class="bg-secondary/80 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.4s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/gimbal-guide/gimbal-accessories/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Insta360%20Flow%202%20Pro%20Smartphone%20Gimbal%20Reviews%20After%20Hands-On%20Use-640x360.webp" alt="Gimbal Accessories" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/gimbal-guide/gimbal-accessories/">Accessories</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Essential accessories to enhance your gimbal experience and expand your creative options.
+                        </p>
+                        
+                        <a href="/gimbal-guide/gimbal-accessories/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Browse
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+            </div>
+            
+            <!-- View All Button -->
+            <div class="flex justify-center mt-10">
+                <a href="/gimbal-guide/" class="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:-translate-y-0.5">
+                    View All Guides
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                        <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+        
+        
+        <!-- Featured Posts Section -->
+        <section class="container mx-auto px-4 py-12 md:py-16">
+            
+            <!-- Section Header -->
+            <div class="py-6 md:py-10 flex flex-col items-center text-center reveal">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-display mb-4 tracking-tight">
+                    Featured <span class="text-accent">Guides</span>
+                </h1>
+                <p class="text-muted text-base md:text-lg max-w-2xl px-4 leading-relaxed">
+                    Expert tips and techniques to help you master gimbal videography and capture <span class="font-semibold text-white">cinematic footage</span> every time.
+                </p>
+                <div class="flex items-center gap-3 mt-6">
+                    <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+                    <div class="w-3 h-3 bg-accent rounded-full pulse-glow"></div>
+                    <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+                </div>
+            </div>
+            
+            <!-- Posts Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                
+                <!-- Article 1 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/10-mbobile-videography-tips-for-beginners/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/10%20Mobile%20Videography%20Tips%20for%20Beginners%20%E2%80%94%20Better%20Videos%20Today-640x360.jpg" alt="10 Mobile Videography Tips for Beginners" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Blog</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Apr 01, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/10-mbobile-videography-tips-for-beginners/">10 Mobile Videography Tips for Beginners — Better Videos Today</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Shaky or dull phone footage? These 10 mobile videography tips for beginners cover lighting, 4K settings, stability, and audio. Start shooting better videos today.
+                        </p>
+                        
+                        <a href="/10-mbobile-videography-tips-for-beginners/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Article 2 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/cinematic-gimbal-moves-for-wedding-videos/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Cinematic%20Gimbal%20Moves%20for%20Wedding%20Videos%207%20Pro%20Techniques-640x360.webp" alt="Cinematic Gimbal Moves for Wedding Videos" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-highlight text-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Gimbal Guide</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Mar 18, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/cinematic-gimbal-moves-for-wedding-videos/">Cinematic Gimbal Moves for Wedding Videos: 7 Pro Techniques</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Learn the 7 essential cinematic gimbal moves for wedding videos. From tracking shots to the orbit, film every shot that looks smooth and cinematic.
+                        </p>
+                        
+                        <a href="/cinematic-gimbal-moves-for-wedding-videos/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Article 3 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.3s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Insta360%20Flow%202%20Pro%20Smartphone%20Gimbal%20Reviews%20After%20Hands-On%20Use-640x360.webp" alt="Insta360 Flow 2 Pro Review" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Buying Guide</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Mar 08, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/">Insta360 Flow 2 Pro Smartphone Gimbal Reviews</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            If you are searching for Insta360 Flow 2 Pro smartphone gimbal reviews, you're probably trying to decide if this gimbal is actually useful.
+                        </p>
+                        
+                        <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
+                                <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+            </div>
+            
+            <!-- View All Button -->
+            <div class="flex justify-center mt-10">
+                <a href="/blog/" class="inline-flex items-center gap-2 bg-accent hover:bg-accent/80 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:-translate-y-0.5">
+                    View All Articles
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                        <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- Blog Posts Section -->
+        <section class="container mx-auto px-4 py-12 md:py-16 border-t border-border/20">
+            
+            <!-- Section Header with Gradient Text -->
+            <div class="w-full flex justify-center items-center pb-8 reveal">
+                <div class="relative mx-auto flex justify-center items-center flex-col">
+                    <h2 class="not-italic font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight md:leading-normal tracking-[-0.01em] capitalize bg-[linear-gradient(91.57deg,rgba(255,255,255,0)_-20.9%,rgba(241,241,241,0.85)_26.58%,#E7E7E7_59.03%,rgba(153,153,153,0.5)_99.3%)] bg-clip-text text-transparent text-center mb-4">
+                        Latest Articles
+                    </h2>
+                    <p class="text-muted text-base md:text-lg max-w-2xl px-4 text-center">
+                        Fresh insights, reviews, and tutorials from the gimbal world.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Blog Posts Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                
+                <!-- Blog Post 1 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.1s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/can-you-use-zoom-lens-on-gimbal/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Can%20You%20Use%20a%20Zoom%20Lens%20on%20a%20Gimbal%20Safely%20and%20Effectively-640x360.webp" alt="Can You Use a Zoom Lens on a Gimbal?" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Blog</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Feb 19, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/can-you-use-zoom-lens-on-gimbal/">Can You Use a Zoom Lens on a Gimbal Safely and Effectively?</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            Yes, you absolutely can use a zoom lens on a gimbal, but you need to balance it correctly (often by setting the zoom halfway).
+                        </p>
+                        
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
+                            <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
+                                <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white text-sm font-medium">Shompod Hossain</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 2 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.2s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/is-the-dJI-osmo-7p-good-for-beginners/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/Is%20the%20DJI%20Osmo%207P%20Good%20for%20Beginners%20The%20Honest%20Answer-1-640x360.webp" alt="Is the DJI Osmo 7P Good for Beginners" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-rose-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Trending</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Feb 14, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/is-the-dJI-osmo-7p-good-for-beginners/">Is the DJI Osmo 7P Good for Beginners? The Honest Answer</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            The DJI Osmo Mobile 7P has been popping up a lot among creators lately. And with 1 in 4 individuals being a content creator...
+                        </p>
+                        
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
+                            <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
+                                <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white text-sm font-medium">Shompod Hossain</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 3 -->
+                <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.3s;">
+                    <div class="overflow-hidden relative rounded-t-2xl">
+                        <a href="/how-to-film-social-media-content-with-gimbal/">
+                            <img src="https://admin.gimbalsinsider.com/api/media/file/How%20to%20Film%20Social%20Media%20Content%20with%20Gimbal%20Like%20a%20Pro-640x360.webp" alt="How to Film Social Media Content with Gimbal" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        </a>
+                        <span class="absolute top-3 left-3 bg-highlight text-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Tutorial</span>
+                    </div>
+                    
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="text-xs text-muted mb-3 flex items-center gap-4">
+                            <span class="flex items-center gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
+                                    <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
+                                </svg>
+                                Feb 10, 2026
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
+                            <a href="/how-to-film-social-media-content-with-gimbal/">How to Film Social Media Content with Gimbal Like a Pro</a>
+                        </h3>
+                        
+                        <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
+                            First things first, you must balance your camera or phone before you start filming. Sketch a rough storyboard...
+                        </p>
+                        
+                        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
+                            <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
+                                <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-white text-sm font-medium">Shompod Hossain</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+            
+            <!-- View All Button -->
+            <div class="flex justify-center mt-10">
+                <a href="/blog/" class="inline-flex items-center gap-2 border-2 border-accent text-accent hover:bg-accent hover:text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 hover:-translate-y-0.5">
+                    Browse All Posts
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                        <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- FAQ Section -->
+        <section class="bg-secondary/40 py-16 md:py-24 border-y border-border/20">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+                    
+                    <!-- FAQ Image (2/5 Width) -->
+                    <div class="lg:w-2/5 reveal">
+                        <img src="static/Images/gimbal.jpg" alt="FAQ Illustration" class="w-full max-w-sm lg:max-w-full mx-auto rounded-2xl shadow-2xl border border-border/20"/>
+                    </div>
+                    
+                    <!-- FAQ Content (3/5 Width) -->
+                    <div class="lg:w-3/5 w-full reveal" style="transition-delay: 0.2s;">
+                        <div class="mb-10">
+                            <h2 class="text-3xl md:text-4xl font-bold font-display mb-3">Got Questions?</h2>
+                            <p class="text-highlight text-2xl font-semibold">We Got Answers!</p>
+                        </div>
+                        
+                        <div class="space-y-5">
+                            <!-- FAQ Item 1 -->
+                            <div class="faq-item bg-surface border border-border/50 rounded-xl overflow-hidden">
+                                <button class="faq-button w-full flex justify-between items-center p-5 text-left font-semibold hover:bg-card/50 transition" onclick="toggleFaq(this)">
+                                    <span class="pr-4">How long does the battery last?</span>
+                                    <span class="faq-icon text-accent text-2xl transition-transform duration-300 font-light shrink-0">+</span>
+                                </button>
+                                <div class="faq-content hidden px-5 pb-5 text-muted">
+                                    <p>This totally depends on the model. Battery life ranges from 8 to 12 hours.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 2 -->
+                            <div class="faq-item bg-surface border border-border/50 rounded-xl overflow-hidden">
+                                <button class="faq-button w-full flex justify-between items-center p-5 text-left font-semibold hover:bg-card/50 transition" onclick="toggleFaq(this)">
+                                    <span class="pr-4">Can I use these gimbals with a smartphone?</span>
+                                    <span class="faq-icon text-accent text-2xl transition-transform duration-300 font-light shrink-0">+</span>
+                                </button>
+                                <div class="faq-content hidden px-5 pb-5 text-muted">
+                                    <p>Yes, most gimbals are compatible with smartphones. Check the specific model for compatibility.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 3 -->
+                            <div class="faq-item bg-surface border border-border/50 rounded-xl overflow-hidden">
+                                <button class="faq-button w-full flex justify-between items-center p-5 text-left font-semibold hover:bg-card/50 transition" onclick="toggleFaq(this)">
+                                    <span class="pr-4">Are the gimbals water-resistant?</span>
+                                    <span class="faq-icon text-accent text-2xl transition-transform duration-300 font-light shrink-0">+</span>
+                                </button>
+                                <div class="faq-content hidden px-5 pb-5 text-muted">
+                                    <p>Some gimbals are water-resistant, but not all. Refer to the product specifications for details.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ Item 4 -->
+                            <div class="faq-item bg-surface border border-border/50 rounded-xl overflow-hidden">
+                                <button class="faq-button w-full flex justify-between items-center p-5 text-left font-semibold hover:bg-card/50 transition" onclick="toggleFaq(this)">
+                                    <span class="pr-4">Are these gimbals compatible with DSLR cameras?</span>
+                                    <span class="faq-icon text-accent text-2xl transition-transform duration-300 font-light shrink-0">+</span>
+                                </button>
+                                <div class="faq-content hidden px-5 pb-5 text-muted">
+                                    <p>Yes, certain models are designed specifically for DSLR cameras. Check the product description for compatibility.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Newsletter Section -->
+        <section class="py-14 md:py-16 bg-gradient-to-br from-surface via-secondary/50 to-surface">
+            <div class="container mx-auto px-4">
+                
+                <div class="flex flex-col lg:flex-row items-center gap-4 lg:gap-6">
+
+                    <!-- Newsletter Content -->
+                    <div class="lg:w-1/2 w-full text-center lg:text-left reveal">
+                        
+                        <div class="mb-6">
+                            <h2 class="text-3xl md:text-4xl font-bold font-display mb-3">
+                                Stay Updated
+                            </h2>
+                            
+                            <p class="text-muted text-base md:text-lg max-w-xl mx-auto lg:mx-0">
+                                Don't miss out on new product launches, exclusive discounts, and expert videography tips. Join our newsletter to stay connected with everything gimbals.
+                            </p>
+                        </div>
+
+                        <form class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto lg:mx-0">
+                            <input 
+                                type="email" 
+                                placeholder="Enter your email" 
+                                class="flex-1 px-5 py-3 rounded-xl bg-secondary border border-border/50 text-white placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent transition"
+                                required
+                            />
+                            
+                            <button 
+                                type="submit" 
+                                class="bg-accent hover:bg-accent/80 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-accent/25 whitespace-nowrap">
+                                Subscribe
+                            </button>
+                        </form>
+
+                    </div>
+
+                    <!-- Newsletter Image -->
+                    <div class="lg:w-1/2 w-full reveal mt-8 lg:mt-0" style="transition-delay: 0.2s;">
+                        
+                        <img 
+                            src="static/images/gimbal.jpg" 
+                            alt="Newsletter"
+                            class="w-full max-w-md lg:max-w-full mx-auto rounded-2xl shadow-2xl border border-border/20"
+                        />
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-14 pb-6 border-t border-border/30">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                
+                <!-- Brand Info -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="static/Images/logo.jpg" alt="Gimbals Insider Logo" class="h-7 w-auto object-contain"/>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-6">
+                        Your trusted source for gimbal reviews, tutorials, and expert videography tips. Elevate your content creation journey.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://www.linkedin.com/company/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/>
+                            </svg>
+                        </a>
+                        <a href="https://web.facebook.com/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M279.14 288l14.22-92.66h-88.91V117.78c0-25.35 12.42-50.06 52.24-50.06H295V6.26S259.36 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Quick Links</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li><a href="/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Home</a></li>
+                        <li><a href="/about/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>About Us</a></li>
+                        <li><a href="/contact/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Contact</a></li>
+                        <li><a href="/blog/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Policies -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Policies</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li><a href="/privacy-policy/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Privacy Policy</a></li>
+                        <li><a href="/disclaimer/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Disclaimer</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Contact Info</h3>
+                    <ul class="space-y-4 text-sm text-muted">
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Email</span>
+                            <a href="mailto:informations@gimbalsinsider.com" class="hover:text-accent transition break-all text-xs">informations@gimbalsinsider.com</a>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Location</span>
+                            <span>45 Main Street, Springfield, USA</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Phone</span>
+                            <span>(555) 486-8736</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-border/30 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-muted gap-3">
+                <p>Copyright 2026 GIMBALS - All Rights Reserved</p>
+                <div class="flex gap-6">
+                    <a href="/privacy-policy/" class="hover:text-accent transition">Privacy Policy</a>
+                    <a href="/disclaimer/" class="hover:text-accent transition">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Initialize variables before use
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Mobile dropdown toggles
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const icon = this.querySelector('svg');
+                menu.classList.toggle('open');
+                menu.classList.toggle('hidden');
+                icon.style.transform = menu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+        
+        // Carousel scroll function
+        function scrollCarousel(amount) {
+            const carousel = document.getElementById('card-carousel');
+            if (carousel) {
+                carousel.scrollBy({ left: amount, behavior: 'smooth' });
+            }
+        }
+        
+        // FAQ toggle function
+        function toggleFaq(button) {
+            const faqItem = button.closest('.faq-item');
+            const content = faqItem.querySelector('.faq-content');
+            const icon = faqItem.querySelector('.faq-icon');
+            
+            content.classList.toggle('hidden');
+            icon.textContent = content.classList.contains('hidden') ? '+' : '−';
+            icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        
+        // Scroll reveal animation with IntersectionObserver
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+        
+        // Respect reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.reveal').forEach(function(el) {
+                el.classList.add('visible');
+            });
+        }
+    </script>
+    
+</body>
+</html>
