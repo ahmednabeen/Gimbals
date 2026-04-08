@@ -26,11 +26,13 @@
         <!-- Blog Posts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             
-            <!-- Article 1 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.1s;">
+            {% for post in posts %}
+            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.{{ forloop.counter0 }}s;">
                 <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/10-mbobile-videography-tips-for-beginners/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/10%20Mobile%20Videography%20Tips%20for%20Beginners%20%E2%80%94%20Better%20Videos%20Today-640x360.jpg" alt="10 Mobile Videography Tips for Beginners" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    <a href="#"> <!-- Placeholder for post detail URL -->
+                        {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        {% endif %}
                     </a>
                     <span class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Blog</span>
                 </div>
@@ -41,19 +43,19 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
                                 <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
                             </svg>
-                            Apr 01, 2026
+                            {{ post.publication_date|date:"M d, Y" }}
                         </span>
                     </div>
                     
                     <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/10-mbobile-videography-tips-for-beginners/">10 Mobile Videography Tips for Beginners — Better Videos Today</a>
+                        <a href="#">{{ post.title }}</a>
                     </h3>
                     
                     <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        Shaky or dull phone footage? These 10 mobile videography tips for beginners cover lighting, 4K settings, stability, and audio. Start shooting better videos today.
+                        {{ post.content|truncatewords:25 }}
                     </p>
                     
-                    <a href="/10-mbobile-videography-tips-for-beginners/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
+                    <a href="#" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
                         Read More
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
                             <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
@@ -61,196 +63,15 @@
                     </a>
                 </div>
             </article>
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <p class="text-muted">No blog posts have been published yet. Check back soon!</p>
+            </div>
+            {% endfor %}
             
-            <!-- Article 2 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.2s;">
-                <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/cinematic-gimbal-moves-for-wedding-videos/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/Cinematic%20Gimbal%20Moves%20for%20Wedding%20Videos%207%20Pro%20Techniques-640x360.webp" alt="Cinematic Gimbal Moves for Wedding Videos" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
-                    </a>
-                    <span class="absolute top-3 left-3 bg-highlight text-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Gimbal Guide</span>
-                </div>
-                
-                <div class="p-5 flex-1 flex flex-col">
-                    <div class="text-xs text-muted mb-3 flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Mar 18, 2026
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/cinematic-gimbal-moves-for-wedding-videos/">Cinematic Gimbal Moves for Wedding Videos: 7 Pro Techniques</a>
-                    </h3>
-                    
-                    <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        Learn the 7 essential cinematic gimbal moves for wedding videos. From tracking shots to the orbit, film every shot that looks smooth and cinematic.
-                    </p>
-                    
-                    <a href="/cinematic-gimbal-moves-for-wedding-videos/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
-                        Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
-                            <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
-                        </svg>
-                    </a>
-                </div>
-            </article>
-            
-            <!-- Article 3 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.3s;">
-                <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/Insta360%20Flow%202%20Pro%20Smartphone%20Gimbal%20Reviews%20After%20Hands-On%20Use-640x360.webp" alt="Insta360 Flow 2 Pro Review" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
-                    </a>
-                    <span class="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Buying Guide</span>
-                </div>
-                
-                <div class="p-5 flex-1 flex flex-col">
-                    <div class="text-xs text-muted mb-3 flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Mar 08, 2026
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/">Insta360 Flow 2 Pro Smartphone Gimbal Reviews</a>
-                    </h3>
-                    
-                    <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        If you are searching for Insta360 Flow 2 Pro smartphone gimbal reviews, you're probably trying to decide if this gimbal is actually useful.
-                    </p>
-                    
-                    <a href="/insta360-flow-2-pro-smartphone-gimbal-reviews/" class="inline-flex items-center text-accent font-semibold text-sm hover:underline mt-auto group/link">
-                        Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
-                            <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
-                        </svg>
-                    </a>
-                </div>
-            </article>
-
-            <!-- Article 4 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.4s;">
-                <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/can-you-use-zoom-lens-on-gimbal/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/Can%20You%20Use%20a%20Zoom%20Lens%20on%20a%20Gimbal%20Safely%20and%20Effectively-640x360.webp" alt="Can You Use a Zoom Lens on a Gimbal?" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
-                    </a>
-                    <span class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Blog</span>
-                </div>
-                
-                <div class="p-5 flex-1 flex flex-col">
-                    <div class="text-xs text-muted mb-3 flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Feb 19, 2026
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/can-you-use-zoom-lens-on-gimbal/">Can You Use a Zoom Lens on a Gimbal Safely and Effectively?</a>
-                    </h3>
-                    
-                    <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        Yes, you absolutely can use a zoom lens on a gimbal, but you need to balance it correctly (often by setting the zoom halfway).
-                    </p>
-                    
-                    <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
-                        <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
-                            <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-white text-sm font-medium">Shompod Hossain</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            
-            <!-- Article 5 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.5s;">
-                <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/is-the-dJI-osmo-7p-good-for-beginners/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/Is%20the%20DJI%20Osmo%207P%20Good%20for%20Beginners%20The%20Honest%20Answer-1-640x360.webp" alt="Is the DJI Osmo 7P Good for Beginners" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
-                    </a>
-                    <span class="absolute top-3 left-3 bg-rose-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Trending</span>
-                </div>
-                
-                <div class="p-5 flex-1 flex flex-col">
-                    <div class="text-xs text-muted mb-3 flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Feb 14, 2026
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/is-the-dJI-osmo-7p-good-for-beginners/">Is the DJI Osmo 7P Good for Beginners? The Honest Answer</a>
-                    </h3>
-                    
-                    <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        The DJI Osmo Mobile 7P has been popping up a lot among creators lately. And with 1 in 4 individuals being a content creator...
-                    </p>
-                    
-                    <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
-                        <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
-                            <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-white text-sm font-medium">Shompod Hossain</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            
-            <!-- Article 6 -->
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.6s;">
-                <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="/how-to-film-social-media-content-with-gimbal/">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/How%20to%20Film%20Social%20Media%20Content%20with%20Gimbal%20Like%20a%20Pro-640x360.webp" alt="How to Film Social Media Content with Gimbal" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
-                    </a>
-                    <span class="absolute top-3 left-3 bg-highlight text-primary text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Tutorial</span>
-                </div>
-                
-                <div class="p-5 flex-1 flex flex-col">
-                    <div class="text-xs text-muted mb-3 flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Feb 10, 2026
-                        </span>
-                    </div>
-                    
-                    <h3 class="text-lg font-bold font-display mb-3 group-hover:text-accent transition-colors duration-200 leading-snug">
-                        <a href="/how-to-film-social-media-content-with-gimbal/">How to Film Social Media Content with Gimbal Like a Pro</a>
-                    </h3>
-                    
-                    <p class="text-muted text-sm mb-4 line-clamp-2 flex-1">
-                        First things first, you must balance your camera or phone before you start filming. Sketch a rough storyboard...
-                    </p>
-                    
-                    <div class="flex items-center gap-3 mt-auto pt-4 border-t border-border/30">
-                        <div class="w-9 h-9 rounded-full bg-surface flex-shrink-0 overflow-hidden">
-                            <img alt="Shompod Hossain" src="https://admin.gimbalsinsider.com/api/media/file/Gimbal%20author%20bio%20v2-553x622.png" class="w-full h-full object-cover"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-white text-sm font-medium">Shompod Hossain</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
         </div>
         
-        <!-- Pagination (Optional Visual Placeholder) -->
+        <!-- Pagination (Placeholder ) -->
         <div class="flex justify-center mt-12">
             <nav class="flex items-center gap-2">
                 <a href="#" class="px-4 py-2 bg-secondary border border-border rounded-lg text-muted hover:bg-accent hover:text-white hover:border-accent transition">Previous</a>

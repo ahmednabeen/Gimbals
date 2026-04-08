@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,7 @@
         }
         
         body {
-            background: var(--bg);
+            background: var(--bg );
         }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -92,17 +93,17 @@
             <div class="flex items-center justify-between relative">
                 
                 <!-- Logo (Left) -->
-                <a href="/" class="flex items-center gap-3 shrink-0 z-10">
-                    <img src="/static/images/logo.jpg" alt="Gimbals Insider Logo" width="130" height="28" class="h-8 md:h-9 w-auto object-contain"/>
+                <a href="{% url 'home' %}" class="flex items-center gap-3 shrink-0 z-10">
+                    <img src="{% static 'images/logo.jpg' %}" alt="Gimbals Insider Logo" width="130" height="28" class="h-8 md:h-9 w-auto object-contain"/>
                 </a>
                 
                 <!-- Desktop Navigation (Center) -->
                 <nav class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-base font-semibold text-white/90">
-                    <a href="/" class="hover:text-accent transition">Home</a>
-                    <a href="/" class="hover:text-accent transition">Gimbal Guide</a>
-                    {% comment %} <a href="/blog/" class="hover:text-accent transition">Blog</a> {% endcomment %}
-                    <a href="/about/" class="hover:text-accent transition">About</a>
-                    <a href="/contact/" class="hover:text-accent transition">Contact</a>
+                    <a href="{% url 'home' %}" class="hover:text-accent transition">Home</a>
+                    <a href="{% url 'home' %}" class="hover:text-accent transition">Gimbal Guide</a>
+                    {% comment %} <a href="{% url 'blog' %}" class="hover:text-accent transition">Blog</a> {% endcomment %}
+                    <a href="{% url 'about' %}" class="hover:text-accent transition">About</a>
+                    <a href="{% url 'contact' %}" class="hover:text-accent transition">Contact</a>
                 </nav>
 
                 <!-- Mobile Menu Button (Right) -->
@@ -116,11 +117,11 @@
         
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden lg:hidden bg-surface border-t border-border/30 px-4 py-4 space-y-2 text-white">
-            <a href="/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Home</a>
-            <a href="/gimbal-guide/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Gimbal Guide</a>
-            {% comment %} <a href="/blog/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Blog</a> {% endcomment %}
-            <a href="/about/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">About</a>
-            <a href="/contact/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Contact</a>
+            <a href="{% url 'home' %}" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Home</a>
+            <a href="{% url 'home' %}" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Gimbal Guide</a>
+            {% comment %} <a href="{% url 'blog' %}" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Blog</a> {% endcomment %}
+            <a href="{% url 'about' %}" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">About</a>
+            <a href="{% url 'contact' %}" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Contact</a>
         </div>
     </header>
 
@@ -162,7 +163,7 @@
                 <!-- Brand Info -->
                 <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <img src="static/Images/logo.jpg" alt="Gimbals Insider Logo" class="h-7 w-auto object-contain"/>
+                        <img src="{% static 'images/logo.jpg' %}" alt="Gimbals Insider Logo" class="h-7 w-auto object-contain"/>
                     </div>
                     <p class="text-white text-sm leading-relaxed mb-6">
                         Your trusted source for gimbal reviews, tutorials, and expert videography tips. Elevate your content creation journey.
@@ -190,10 +191,10 @@
                 <div>
                     <h3 class="text-base font-bold font-display mb-5 text-white">Quick Links</h3>
                     <ul class="space-y-2.5 text-sm text-white">
-                        <li><a href="/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Home</a></li>
-                        <li><a href="/about/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>About Us</a></li>
-                        <li><a href="/contact/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Contact</a></li>
-                        {% comment %} <li><a href="/blog/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Blog</a></li> {% endcomment %}
+                        <li><a href="{% url 'home' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>About Us</a></li>
+                        <li><a href="{% url 'contact' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Contact</a></li>
+                        {% comment %} <li><a href="{% url 'blog' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Blog</a></li> {% endcomment %}
                     </ul>
                 </div>
                 
@@ -201,8 +202,8 @@
                 <div>
                     <h3 class="text-base font-bold font-display mb-5 text-white">Policies</h3>
                     <ul class="space-y-2.5 text-sm text-white">
-                        <li><a href="/privacy/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Privacy Policy</a></li>
-                        <li><a href="/disclaimer/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Disclaimer</a></li>
+                        <li><a href="{% url 'privacy' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Privacy Policy</a></li>
+                        <li><a href="{% url 'disclaimer' %}" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Disclaimer</a></li>
                     </ul>
                 </div>
                 
@@ -220,7 +221,7 @@
                         </li>
                         <li class="flex items-start gap-3">
                             <span class="text-accent text-base">Phone</span>
-                            <span class="text-white">(555) 486-8736</span>
+                            <span class="text-white">(555 ) 486-8736</span>
                         </li>
                     </ul>
                 </div>
@@ -241,18 +242,26 @@
         const mobileMenu = document.getElementById('mobile-menu');
         
         // Mobile menu toggle
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                if (mobileMenu) {
+                    mobileMenu.classList.toggle('hidden');
+                }
+            });
+        }
         
         // Mobile dropdown toggles
         document.querySelectorAll('.mobile-dropdown-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 const menu = this.nextElementSibling;
                 const icon = this.querySelector('svg');
-                menu.classList.toggle('open');
-                menu.classList.toggle('hidden');
-                icon.style.transform = menu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                if (menu) {
+                    menu.classList.toggle('open');
+                    menu.classList.toggle('hidden');
+                }
+                if (icon) {
+                    icon.style.transform = menu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
             });
         });
         
@@ -267,37 +276,45 @@
         // FAQ toggle function
         function toggleFaq(button) {
             const faqItem = button.closest('.faq-item');
-            const content = faqItem.querySelector('.faq-content');
-            const icon = faqItem.querySelector('.faq-icon');
-            
-            content.classList.toggle('hidden');
-            icon.textContent = content.classList.contains('hidden') ? '+' : '−';
-            icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            if (faqItem) {
+                const content = faqItem.querySelector('.faq-content');
+                const icon = faqItem.querySelector('.faq-icon');
+                
+                if (content && icon) {
+                    content.classList.toggle('hidden');
+                    icon.textContent = content.classList.contains('hidden') ? '+' : '−';
+                    icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            }
         }
         
         // Scroll reveal animation with IntersectionObserver
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -40px 0px'
-        };
-        
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('.reveal').forEach(function(el) {
-            observer.observe(el);
-        });
-        
-        // Respect reduced motion preference
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        try {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
             document.querySelectorAll('.reveal').forEach(function(el) {
-                el.classList.add('visible');
+                observer.observe(el);
             });
+            
+            // Respect reduced motion preference
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('.reveal').forEach(function(el) {
+                    el.classList.add('visible');
+                });
+            }
+        } catch (e) {
+            console.error("IntersectionObserver not supported or failed to initialize:", e);
         }
     </script>
     
