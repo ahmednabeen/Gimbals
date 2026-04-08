@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gimbals Insider</title>
+    <meta name="description" content="Where Gimbal Enthusiasts Level Up"/>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0A0F1C',
+                        secondary: '#141B2D',
+                        accent: '#3B82F6',
+                        highlight: '#06B6D4',
+                        surface: '#1E293B',
+                        muted: '#64748B',
+                        border: '#334155'
+                    },
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+        
+        :root {
+            --bg: #0A0F1C;
+            --fg: #F8FAFC;
+            --accent: #3B82F6;
+            --highlight: #06B6D4;
+        }
+        
+        body {
+            background: var(--bg);
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .desktop-dropdown:hover .desktop-dropdown-menu { display: block; }
+        
+        .mobile-dropdown-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .mobile-dropdown-menu.open { max-height: 300px; }
+        
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.25); }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .card-hover:hover { transform: none; }
+        }
+        
+        .aspect-cat { aspect-ratio: 340 / 400; }
+        
+        .gradient-overlay {
+            background: linear-gradient(to top, rgba(10, 15, 28, 0.95) 0%, rgba(10, 15, 28, 0.5) 50%, transparent 100%);
+        }
+        
+        .header-blur { backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 20px 4px rgba(59, 130, 246, 0.3); }
+        }
+        
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+    </style>
+</head>
+<body class="bg-primary text-white font-body flex flex-col min-h-screen">
+    
+    <!-- Header -->
+    <header class="bg-secondary text-white top-0 z-50 border-b border-border/50 shadow-lg">
+        <div class="container mx-auto px-4 py-5">
+            <div class="flex items-center justify-between relative">
+                
+                <!-- Logo (Left) -->
+                <a href="/" class="flex items-center gap-3 shrink-0 z-10">
+                    <img src="static/images/logo.jpg" alt="Gimbals Insider Logo" width="130" height="28" class="h-8 md:h-9 w-auto object-contain"/>
+                </a>
+                
+                <!-- Desktop Navigation (Center) -->
+                <nav class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 text-base font-semibold text-white/90">
+                    <a href="/" class="hover:text-accent transition">Home</a>
+                    <a href="/" class="hover:text-accent transition">Gimbal Guide</a>
+                    <a href="/blog/" class="hover:text-accent transition">Blog</a>
+                    <a href="/about/" class="hover:text-accent transition">About</a>
+                    <a href="/contact/" class="hover:text-accent transition">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Button (Right) -->
+                <button id="mobile-menu-btn" aria-label="Open mobile menu" class="lg:hidden text-white p-2 rounded-lg hover:bg-surface transition focus:outline-none z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-6 h-6">
+                        <path d="M16 132h416c8.8 0 16-7.2 16-16V76c0-8.8-7.2-16-16-16H16C7.2 60 0 67.2 0 76v40c0 8.8 7.2 16 16 16zm0 160h416c8.8 0 16-7.2 16-16v-40c0-8.8-7.2-16-16-16H16c-8.8 0-16 7.2-16 16v40c0 8.8 7.2 16 16 16zm0 160h416c8.8 0 16-7.2 16-16v-40c0-8.8-7.2-16-16-16H16c-8.8 0-16 7.2-16 16v40c0 8.8 7.2 16 16 16z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-surface border-t border-border/30 px-4 py-4 space-y-2 text-white">
+            <a href="/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Home</a>
+            <a href="/gimbal-guide/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Gimbal Guide</a>
+            <a href="/blog/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Blog</a>
+            <a href="/about/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">About</a>
+            <a href="/contact/" class="block py-2 px-3 hover:text-accent rounded-lg hover:bg-primary transition">Contact</a>
+        </div>
+    </header>
+
+
+    {% block content %}
+    {% endblock content%}
+
+
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white pt-14 pb-6 border-t border-border/30">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+                
+                <!-- Brand Info -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="static/Images/logo.jpg" alt="Gimbals Insider Logo" class="h-7 w-auto object-contain"/>
+                    </div>
+                    <p class="text-muted text-sm leading-relaxed mb-6">
+                        Your trusted source for gimbal reviews, tutorials, and expert videography tips. Elevate your content creation journey.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://www.linkedin.com/company/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/>
+                            </svg>
+                        </a>
+                        <a href="https://web.facebook.com/gimbalsinsider" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-surface hover:bg-accent hover:text-white flex items-center justify-center text-muted transition" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-4 h-4">
+                                <path d="M279.14 288l14.22-92.66h-88.91V117.78c0-25.35 12.42-50.06 52.24-50.06H295V6.26S259.36 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Quick Links</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li><a href="/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Home</a></li>
+                        <li><a href="/about/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>About Us</a></li>
+                        <li><a href="/contact/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Contact</a></li>
+                        <li><a href="/blog/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Blog</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Policies -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Policies</h3>
+                    <ul class="space-y-2.5 text-sm text-muted">
+                        <li><a href="/privacy-policy/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Privacy Policy</a></li>
+                        <li><a href="/disclaimer/" class="hover:text-accent flex items-center gap-2 transition"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor" class="w-2.5 h-2.5 text-accent/70"><path d="M285.5 273L91.5 467c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9L188.5 256 35 102.5c-9.4-9.4-9.4-24.6 0-33.9L57.6 46c9.4-9.4 24.6-9.4 33.9 0l194 194c9.4 9.4 9.4 24.6 0 33.9z"/></svg>Disclaimer</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-base font-bold font-display mb-5 text-white">Contact Info</h3>
+                    <ul class="space-y-4 text-sm text-muted">
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Email</span>
+                            <a href="mailto:informations@gimbalsinsider.com" class="hover:text-accent transition break-all text-xs">informations@gimbalsinsider.com</a>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Location</span>
+                            <span>45 Main Street, Springfield, USA</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent text-base">Phone</span>
+                            <span>(555) 486-8736</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-border/30 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-muted gap-3">
+                <p>Copyright 2026 GIMBALS - All Rights Reserved</p>
+                <div class="flex gap-6">
+                    <a href="/privacy-policy/" class="hover:text-accent transition">Privacy Policy</a>
+                    <a href="/disclaimer/" class="hover:text-accent transition">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Initialize variables before use
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Mobile menu toggle
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Mobile dropdown toggles
+        document.querySelectorAll('.mobile-dropdown-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const menu = this.nextElementSibling;
+                const icon = this.querySelector('svg');
+                menu.classList.toggle('open');
+                menu.classList.toggle('hidden');
+                icon.style.transform = menu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+        
+        // Carousel scroll function
+        function scrollCarousel(amount) {
+            const carousel = document.getElementById('card-carousel');
+            if (carousel) {
+                carousel.scrollBy({ left: amount, behavior: 'smooth' });
+            }
+        }
+        
+        // FAQ toggle function
+        function toggleFaq(button) {
+            const faqItem = button.closest('.faq-item');
+            const content = faqItem.querySelector('.faq-content');
+            const icon = faqItem.querySelector('.faq-icon');
+            
+            content.classList.toggle('hidden');
+            icon.textContent = content.classList.contains('hidden') ? '+' : '−';
+            icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        
+        // Scroll reveal animation with IntersectionObserver
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+        
+        // Respect reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.reveal').forEach(function(el) {
+                el.classList.add('visible');
+            });
+        }
+    </script>
+    
+</body>
+</html>
