@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="flex-grow">
+
+    <!-- Disclaimer Header -->
+    <section class="container mx-auto px-4 py-12 md:py-16">
+        <div class="py-6 md:py-10 flex flex-col items-center text-center reveal">
+            <h1 class="not-italic font-light text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight md:leading-normal tracking-[-0.01em] capitalize bg-[linear-gradient(91.57deg,rgba(255,255,255,0)_-20.9%,rgba(241,241,241,0.85)_26.58%,#E7E7E7_59.03%,rgba(153,153,153,0.5)_99.3%)] bg-clip-text text-transparent text-center mb-4">
+                Disclaimer
+            </h1>
+            <p class="text-fg text-base md:text-lg max-w-2xl px-4 leading-relaxed">
+                Last updated: January 01, 2026
+            </p>
+            <div class="flex items-center gap-3 mt-6">
+                <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+                <div class="w-3 h-3 bg-accent rounded-full pulse-glow"></div>
+                <div class="w-10 h-0.5 bg-accent/40 rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="container mx-auto px-4 pb-20">
+        <div class="max-w-4xl mx-auto space-y-10 text-muted leading-relaxed">
+            
+            <!-- Introduction -->
+            <div class="bg-secondary/30 border border-border/30 rounded-2xl p-8 reveal">
+                <p class="text-fg text-lg">
+                    We provide content on Gimbalsinsider.com for general informational purposes only and may include affiliate links. When you purchase through these links, we earn commissions at no additional cost to you.
+                </p>
+            </div>
+
+            <!-- Section 1 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">1. General Disclaimer</h2>
+                <p>
+                    We want you to know that everything we publish on our website is done with honest intentions and is meant to offer general guidance. At Gimbalsinsider.com, we can't guarantee that all the information is complete or perfectly accurate.
+                </p>
+            </div>
+
+            <!-- Section 2 (Highlighted) -->
+            <div class="bg-secondary/50 border-l-4 border-highlight p-6 rounded-r-xl space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">2. Affiliate & Third Party Links</h2>
+                <p>
+                    Gimbalsinsider may contain affiliate links to other websites. If you purchase through these links, we might earn a commission at no extra cost to you. We're also not in charge of what's on those other sites or what they do.
+                </p>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">3. No Warranties</h2>
+                <p>
+                    We can't guarantee that everything you read here is 100% accurate or up-to-date. If you decide to use the info you find on our site, please know that you're doing so at your own risk.
+                </p>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">4. Limitation of Liability</h2>
+                <p>
+                    If something goes wrong while you use our website, we are not responsible for any damages or losses that might occur.
+                </p>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">5. Professional Disclaimer</h2>
+                <p>
+                    The information you read on Gimbalsinsider.com is just informational. We don't offer professional legal, accounting, or other kinds of advice. If such advice is required, you should seek services from a competent professional.
+                </p>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">6. Consent</h2>
+                <p>
+                    Your use of this website confirms your agreement with our stated disclaimer and its rules. Any changes to this disclaimer will be clearly updated on this page.
+                </p>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="space-y-4 reveal">
+                <h2 class="text-2xl md:text-3xl font-bold font-display text-white">7. Update</h2>
+                <p>
+                    Any revisions, modifications, or other changes to this document will be clearly displayed here.
+                </p>
+            </div>
+
+            <!-- Contact Prompt -->
+            <div class="bg-surface border border-border/30 rounded-2xl p-8 text-center mt-12 reveal">
+                <h3 class="text-xl font-bold font-display text-white mb-2">Questions?</h3>
+                <p class="text-muted mb-4">
+                    If you have any questions about this Disclaimer, please contact us.
+                </p>
+                <a href="/contact/" class="inline-flex items-center gap-2 text-accent font-semibold hover:underline">
+                    Contact Support
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3">
+                        <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+{% endblock %}
