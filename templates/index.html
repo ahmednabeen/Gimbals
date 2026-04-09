@@ -63,7 +63,7 @@
 
     </section>
 
-    <!-- Blog Posts (Latest Articles) Section -->
+    <!-- Blog Posts (Latest Articles ) Section -->
     <section class="container mx-auto px-4 py-12 md:py-16 border-t border-border/20">
         
         <!-- Section Header -->
@@ -81,66 +81,57 @@
         <!-- Blog Posts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             
-            <!-- This is a placeholder loop. You would replace this with a real loop over your blog posts from the database. -->
-            {% for i in "123456" %}
-            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.{{ i }}s;">
+            {% for post in posts %}
+            <article class="bg-secondary/60 rounded-2xl shadow-lg group border border-border/30 flex flex-col card-hover reveal" style="transition-delay: 0.{{ forloop.counter }}s;">
                 <div class="overflow-hidden relative rounded-t-2xl">
-                    <a href="#">
-                        <img src="https://admin.gimbalsinsider.com/api/media/file/10%20Mobile%20Videography%20Tips%20for%20Beginners%20%E2%80%94%20Better%20Videos%20Today-640x360.jpg" alt="Article Thumbnail" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    <a href="{% url 'blog_detail' post.slug %}">
+                        {% if post.featured_image %}
+                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"/>
+                        {% endif %}
                     </a>
-                    <span class="absolute top-3 left-3 bg-accent text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Blog</span>
+                    {% for category in post.categories.all|slice:":1" %}
+                    <span class="absolute top-3 left-3 bg-accent text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">{{ category.name }}</span>
+                    {% endfor %}
                 </div>
                 
                 <div class="p-5 flex-1 flex flex-col">
                     <div class="text-xs text-bg mb-3 flex items-center gap-4">
                         <span class="flex items-center gap-1.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5">
-                                <path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/>
-                            </svg>
-                            Apr 0{{ i }}, 2026
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5"><path d="M152 64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H64c-35.3 0-64 28.7-64 64v272c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V176c0-35.3-28.7-64-64-64h-40V64c0-8.8-7.2-16-16-16h-16c-8.8 0-16 7.2-16 16v48H152V64zm-88 160h320v224c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V224h32z"/></svg>
+                            {{ post.publication_date|date:"M d, Y" }}
                         </span>
                     </div>
                     
                     <h3 class="text-lg font-bold font-display mb-3 transition-colors duration-200 leading-snug">
-                        <a href="#">Sample Article Title {{ i }}</a>
+                        <a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a>
                     </h3>
                     
                     <p class="text-white text-sm mb-4 line-clamp-2 flex-1">
-                        This is a placeholder description for a sample article. The content would be dynamically loaded from your Django backend.
+                        {{ post.content|truncatewords:25|striptags }}
                     </p>
                     
-                    <a href="#" class="inline-flex items-center text-gray-400 font-semibold text-sm hover:underline mt-auto group/link">
+                    <a href="{% url 'blog_detail' post.slug %}" class="inline-flex items-center text-gray-400 font-semibold text-sm hover:underline mt-auto group/link">
                         Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform">
-                            <path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform"><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0l160 160c9.4 9.4 9.4 24.6 0 33.9l-160 160c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 288H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"/></svg>
                     </a>
                 </div>
             </article>
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <p class="text-muted">No posts have been published yet. Create one in the admin panel!</p>
+            </div>
             {% endfor %}
 
         </div>
         
-        <!-- Pagination (Optional Visual Placeholder ) -->
-        <div class="flex justify-center mt-12">
-            <nav class="flex items-center gap-2">
-                <a href="#" class="px-4 py-2 bg-secondary border border-border rounded-lg text-white hover:bg-accent hover:text-black hover:border-accent transition">Previous</a>
-                <a href="#" class="px-4 py-2 bg-accent text-white hover:bg-accent hover:text-black rounded-lg font-semibold">1</a>
-                <a href="#" class="px-4 py-2 bg-secondary border border-border rounded-lg text-white hover:bg-accent hover:text-black hover:border-accent transition">2</a>
-                <a href="#" class="px-4 py-2 bg-secondary border border-border rounded-lg text-white hover:bg-accent hover:text-black hover:border-accent transition">3</a>
-                <a href="#" class="px-4 py-2 bg-secondary border border-border rounded-lg text-white hover:bg-accent hover:text-black hover:border-accent transition">Next</a>
-            </nav>
-        </div>
-        
     </section>
-
 
     <!-- FAQ Section -->
     <section class="bg-secondary/40 py-16 md:py-24 border-y border-border/20">
         <div class="container mx-auto px-4">
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
                 
-                <!-- FAQ Image (2/5 Width) -->
+                <!-- FAQ Image (2/5 Width ) -->
                 <div class="lg:w-2/5 reveal">
                     <img src="{% static 'images/gimbal.jpg' %}" alt="FAQ Illustration" class="w-full max-w-sm lg:max-w-full mx-auto rounded-2xl shadow-2xl border border-border/20"/>
                 </div>
@@ -201,9 +192,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Newsletter Section (Commented Out) -->
-    {% comment %} ... {% endcomment %}
     
 </main>
     
